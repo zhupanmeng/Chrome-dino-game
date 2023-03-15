@@ -1,10 +1,11 @@
 <template>
-    <div id="fenshu">分数：{}</div>
+    <div id="grade">分数：{{score}}</div>
 </template>
 
 <script setup>
 // 导入pixi.js
 import * as PIXI from "pixi.js";
+import {ref} from 'vue'
 // 创建应用
 const app = new PIXI.Application({
     width: window.innerWidth,
@@ -110,7 +111,7 @@ function playGame() {
     runAnimation.x = 60
     runAnimation.y = window.innerHeight - 140
 }
-let score = 0
+let score = ref(0)
 let jumpSpeed = 20
 let gravity = 1
 let gameOver = false
@@ -123,7 +124,7 @@ app.ticker.add(() => {
         groundSprite.x -= groundSpeed
         if (cactusSprite.x < 0) {
             cactusSprite.x = window.innerWidth
-            score++
+            score.value++
         }
         if (groundSprite.x < -window.innerWidth) {
             groundSprite.x = 0
@@ -151,7 +152,7 @@ app.ticker.add(() => {
 function gameOverfn() {
     gameOver = true
     startText.visible = false
-    const endText = new PIXI.Text(`游戏结束，你的得分是${score}分！`, {
+    const endText = new PIXI.Text(`游戏结束，你的得分是${score.value}分！`, {
         fontFamily: 'Arial',
         fontSize: 36,
         fill: 0x333333,
@@ -181,7 +182,13 @@ window.addEventListener('keydown', (e) => {
     padding: 0;
     box-sizing: border-box;
 }
-
+#grade{
+    position: absolute;
+    left: 30px;
+    top:10px;
+    z-index: 999;
+    font-size: 20px;
+}
 canvas {
     width: 100vw;
     height: 100vh;
